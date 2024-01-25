@@ -12,15 +12,16 @@
  * });
  * ```
  */
-export const wpCli = (command: string, ignoreFailures = false): void => {
+export const wpCli = (
+  command: string,
+  ignoreFailures = false
+): Cypress.Chainable<Cypress.Exec> => {
   const escapedCommand = command.replace(/"/g, '\\"').replace(/^wp /, '');
   const options = {
     failOnNonZeroExit: !ignoreFailures,
   };
-  cy.exec(
+  return cy.exec(
     `npm --silent run env run tests-cli "${escapedCommand}"`,
     options
-  ).then(result => {
-    cy.wrap(result);
-  });
+  );
 };
